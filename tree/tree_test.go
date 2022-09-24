@@ -1,9 +1,9 @@
 package tree_test
 
 import (
-	. "generics/tree"
 	"github.com/stretchr/testify/require"
 	"testing"
+	. "tree"
 )
 
 func TestNew(t *testing.T) {
