@@ -17,6 +17,8 @@ New("Root", New("Left"), New("Right"))
 To iterate over all nodes you can use a traversal.
 ```go
 DepthFirstTraversal(root, op)
+// or
+BreadthFirstTraversal(root, op)
 ```
 
 Where `op` is a function that is applied to each node.
