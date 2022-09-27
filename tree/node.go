@@ -1,10 +1,5 @@
 package tree
 
-type tree[T any, Children any] interface {
-	GetData() T
-	GetChildren() []Children
-}
-
 func New[T any](data T, children ...Node[T]) Node[T] {
 	return Node[T]{
 		Data:     data,

@@ -23,9 +23,9 @@ BreadthFirstTraversal(root, op)
 
 Where `op` is a function that is applied to each node.
 
-### Traversal Operators
+## Traversal Operators
 
-#### Accumulate
+### Accumulate
 
 To accumulate the traversed nodes in a slice you can use `Accumulate`.
 ```go
@@ -40,7 +40,7 @@ nodes[1] // == left
 nodes[2] // == right
 ```
 
-#### Emit
+### Emit
 
 To emit traversed nodes on a channel you can use `Emit`.
 ```go
@@ -63,3 +63,50 @@ DepthFirstTraversal(root, Emit[string](channel))
 <- channel // == right
 ```
 
+## Interface `tree`
+
+You can implement `tree` on your own types to utilize the functions in this package on them.
+
+```go
+type tree[T any, Children any] interface {
+	GetData() T
+	GetChildren() []Children
+}
+```
+
+### Example 1: `Node`
+Exposed by this package [here](https://github.com/MaxInertia/go/blob/main/tree/node.go)
+```go
+type Node[T any] struct {
+	Data     T
+	Children []Node[T]
+}
+
+func (n Node[T]) GetData() T {
+	return n.Data
+}
+
+func (n Node[T]) GetChildren() []Node[T] {
+	return n.Children
+}
+```
+
+### Example 2: `SliceTree`
+See [slice_test.go](https://github.com/MaxInertia/go/blob/main/tree/slice_test.go)
+
+```go
+// SliceTree is a tree where each node has at most 1 child.
+// Example: [1,2] is a node with child [2]
+type SliceTree[T any] []T
+
+func (s SliceTree[T]) GetChildren() []SliceTree[T] {
+	if len(s) == 0 {
+		return nil
+	}
+	return []SliceTree[T]{s[1:]}
+}
+
+func (s SliceTree[T]) GetData() T {
+	return s[0]
+}
+```
